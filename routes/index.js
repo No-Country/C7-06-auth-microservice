@@ -46,6 +46,6 @@ app.get('/api/users', async (req, res) => {
 });
 
 // ping route for testing
-app.get('/api/v1/ping', ping);
+app.get('/api/ping', ping);
 
 module.exports = app;

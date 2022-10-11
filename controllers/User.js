@@ -1,9 +1,7 @@
 const { sequelize, User } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const { profile } = require('console');
-const user = require('../models/user');
+require('dotenv').config();
 
 // signup route
 const signup = (req, res) => {

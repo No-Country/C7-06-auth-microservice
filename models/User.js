@@ -9,10 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Pet, {
-        foreignKey: 'user_id',
-        sourceKey: 'id'
-      });
     }
     toJSON() {
       return { ...this.get(), password: undefined };
@@ -21,12 +17,10 @@ module.exports = (sequelize, DataTypes) => {
   User.init(
     {
       name: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
       },
-      last_name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      surname: {
+        type: DataTypes.STRING
       },
       email: {
         type: DataTypes.STRING,
@@ -39,9 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       address: DataTypes.STRING,
       description: DataTypes.STRING,
       phone_number: DataTypes.STRING,
-      avatar: DataTypes.STRING,
       role: {
-        allowNull: false,
         type: DataTypes.ENUM('user', 'admin')
       }
     },

@@ -37,17 +37,21 @@ module.exports = {
         type: Sequelize.BIGINT
       },
       user_id: {
-        type: Sequelize.BIGINT,
-        reference: {
-          model: 'User',
-          key: 'id'
-        }
+        type: Sequelize.BIGINT
       },
       name: {
         type: Sequelize.STRING
       },
       weight: {
         type: Sequelize.DOUBLE
+      },
+      created_date: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updated_date: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

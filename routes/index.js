@@ -3,10 +3,12 @@ const dotenv = require('dotenv');
 const logger = require('morgan');
 const cors = require('cors');
 const { connectDB, ping } = require('../util/db');
-const { sequelize, User } = require('../models');
+const { sequelize, User, Pet } = require('../models');
 
 // routes imports
+const authRoutes = require('./auth');
 const userRoutes = require('./User');
+const petRoutes = require('./Pet');
 
 // config environment variables
 dotenv.config();
@@ -28,19 +30,22 @@ app.use(express.json());
 app.use(cors());
 
 // routes
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/pets', petRoutes);
 
-app.get('/api/users', async (req, res) => {
+// get all pets route
+app.get('/api/pets', async (req, res) => {
   try {
-    const users = await User.findAll();
+    const pets = await Pet.findAll();
     res.status(200).json({
-      message: 'Users fetched',
-      users
+      message: 'Pets fetched',
+      pets
     });
   } catch (error) {
     res.status(500).json({
       status: 'error',
-      message: 'Internal server error'
+      message: error
     });
   }
 });

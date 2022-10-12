@@ -9,10 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User, {
-        foreignKey: 'user_id',
-        targetKey: 'id'
-      });
     }
   }
   Pet.init(
@@ -34,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Pet',
       tableName: 'pets',
-      timestamps: false
+      createdAt: 'created_date',
+      updatedAt: 'updated_date'
     }
   );
   return Pet;

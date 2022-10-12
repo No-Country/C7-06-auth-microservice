@@ -7,14 +7,14 @@ const auth = require('../middlewares/auth.js');
 // create router
 const router = express.Router();
 
-// signup route
-router.post('/signup', userController.signup);
+// get all users route
+router.get('/', userController.getAllUsers);
 
-// login route
-router.post('/login', userController.login);
+// get user by id route
+router.get('/:id', userController.getUser);
 
-// get user route
-router.get('/', auth, userController.getUser);
+// update user route
+router.put('/:id/update', auth, userController.updateUser);
 
 // export router
 module.exports = router;

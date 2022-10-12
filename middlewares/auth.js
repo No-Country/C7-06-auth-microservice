@@ -1,25 +1,34 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-// config environment variables
-require('dotenv').config();
+console.log("authorisation");
 
-module.exports = (req, res, next) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    const { userId, role } = jwt.verify(token, process.env.JWT_KEY);
-    req.auth = { userId, role };
-    console.log(rep.params.id);
-    console.log(req.auth.userId);
-    // req.auth.userId = userId;
-    // req.auth.role = role;
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
-    } else {
-      next();
+const auth = (req, res, next)  => {
+
+  // Verify if is there is a token
+  const authHeader = req.headers.authorization;
+
+  // If header not on right format
+  if ( !authHeader?.startsWith('Bearer ') ) { return res.status( 401 ).json({'error': 'No authHeader'});}
+    
+  const token = authHeader.split(" ")[1];
+
+  // Decode Token to extract userId
+  jwt.verify(
+    token,
+    process.env.JWT_KEY,
+    ( err, decoded ) =>{
+          
+      if (err) {
+
+        return res.status( 403 ).json({ 'error':'Token expired or invalid' });
+
+      } else {
+        req.auth = {userId: decoded.userId, role: decoded.role};
+        console.log(req.auth);
+        next();
+      }
     }
-  } catch (error) {
-    return res.status(401).json({
-      message: 'Authentication failed XXXXX'
-    });
-  }
-};
+  )
+}
+
+module.exports = auth;

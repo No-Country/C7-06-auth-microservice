@@ -2,7 +2,7 @@
 
 Servidor de autenticación provisional
 
-## Endpoints:
+## User Endpoints:
 
 ### POST: Create User
 
@@ -43,17 +43,19 @@ Result:
 
 ### GET: Get all users
 
-- /api/users
+- https://c7-06-authentication.up.railway.app/api/users/
 
 ### GET: Get user by ID
 
-- /api/users/:id
+- https://c7-06-authentication.up.railway.app/api/users/:id
 
 ### PUT: Update User Info
 
-- /api/users/:id/update
+Requires an authenticated user
 
-Body:
+- https://c7-06-authentication.up.railway.app/api/users/:id/update
+
+Body with data to update:
 
 ```json
 {
@@ -66,3 +68,67 @@ Body:
   "phone_number": "72635236"
 }
 ```
+
+### DELETE: Delete user
+
+Requires an authenticated user
+
+- https://c7-06-authentication.up.railway.app/api/users/:id/delete
+
+<hr>
+
+## Pet Endpoints:
+
+### POST: Create Pet
+
+- https://c7-06-authentication.up.railway.app/api/pets/create
+
+Body:
+
+```json
+{
+  "age": 1,
+  "animal_type": "dog",
+  "description": "Un perrito muy jugueton y divertido",
+  "gender": "macho",
+  "pure_race": false,
+  "race": "Caniche",
+  "size": "Pequeño",
+  "vaccinations_up_to_date": true,
+  "name": "Pepe",
+  "weight": 3.5
+}
+```
+
+### GET: Get All Pets
+
+- https://c7-06-authentication.up.railway.app/api/pets/
+
+### GET: Get Pet By ID
+
+- https://c7-06-authentication.up.railway.app/api/pets/:id
+
+### PUT: Update Pet Info
+
+- https://c7-06-authentication.up.railway.app/api/pets/:id/update
+
+Body with data to update:
+
+```json
+{
+  "age": 1,
+  "animal_type": "dog",
+  "description": "Un perrito muy jugueton y divertido",
+  "gender": "macho",
+  "pure_race": false,
+  "race": "Caniche",
+  "size": "Pequeño",
+  "vaccinations_up_to_date": true,
+  "name": "Pepe",
+  "weight": 3.5
+}
+```
+
+### DELETE: Delete Pet
+
+- https://c7-06-authentication.up.railway.app/api/pets/:id/delete

@@ -18,11 +18,12 @@ const getAllUsers = async (req, res) => {
 
 // update user route
 const updateUser = async (req, res) => {
-  // if (req.auth.userId != req.params.id) {
-  //   return res.status(401).json({
-  //     message: 'Auth failed. You can only update your own user'
-  //   });
-  // }
+  if (req.auth.userId !== req.params.id && req.auth.role !== 'admin') {
+    return res.status(401).json({
+      message: 'Auth failed. You can only update your own user'
+    });
+  }
+
   try {
     const user = await User.findOne({
       where: {

@@ -34,22 +34,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/pets', petRoutes);
 
-// get all pets route
-app.get('/api/pets', async (req, res) => {
-  try {
-    const pets = await Pet.findAll();
-    res.status(200).json({
-      message: 'Pets fetched',
-      pets
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      message: error
-    });
-  }
-});
-
 // ping route for testing
 app.get('/api/ping', ping);
 

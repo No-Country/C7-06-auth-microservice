@@ -18,9 +18,9 @@ const getAllUsers = async (req, res) => {
 
 // update user route
 const updateUser = async (req, res) => {
-  if (req.auth.userId !== req.params.id && req.auth.role !== 'admin') {
+  if (req.auth.userId !== req.params.id) {
     return res.status(401).json({
-      message: 'Auth failed. You can only update your own user'
+      message: 'Auth failed.'
     });
   }
 
@@ -56,6 +56,37 @@ const updateUser = async (req, res) => {
   }
 };
 
+// delete user route
+const deleteUser = async (req, res) => {
+  if (req.auth.userId !== req.params.id) {
+    return res.status(401).json({
+      message: 'Auth failed.'
+    });
+  }
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (user) {
+      await user.destroy();
+      res.status(200).json({
+        message: 'User deleted'
+      });
+    } else {
+      res.status(404).json({
+        message: 'User not found'
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error
+    });
+  }
+};
+
 // get user route
 const getUser = async (req, res) => {
   try {
@@ -80,5 +111,6 @@ const getUser = async (req, res) => {
 module.exports = {
   updateUser,
   getAllUsers,
+  deleteUser,
   getUser
 };

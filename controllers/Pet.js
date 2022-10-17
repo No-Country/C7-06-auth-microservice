@@ -19,10 +19,11 @@ const getAllPets = async (req, res) => {
 
 // get pet by id route
 const getPetById = async (req, res) => {
+  const paramsId = parseInt(req.params.id);
   try {
     const pet = await Pet.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     if (pet) {
@@ -73,10 +74,11 @@ const createPet = async (req, res) => {
 
 // update pet route
 const updatePet = async (req, res) => {
+  const paramsId = parseInt(req.params.id);
   try {
     const pet = await Pet.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     if (pet) {
@@ -111,6 +113,7 @@ const updatePet = async (req, res) => {
 
 // delete pet route
 const deletePet = async (req, res) => {
+  const paramsId = parseInt(req.params.id);
   try {
     const pet = await Pet.findOne({
       where: {

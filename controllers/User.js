@@ -18,7 +18,8 @@ const getAllUsers = async (req, res) => {
 
 // update user route
 const updateUser = async (req, res) => {
-  if (req.auth.userId !== req.params.id) {
+  const paramsId = parseInt(req.params.id);
+  if (req.auth.userId !== paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });
@@ -27,7 +28,7 @@ const updateUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     if (user) {
@@ -58,7 +59,8 @@ const updateUser = async (req, res) => {
 
 // delete user route
 const deleteUser = async (req, res) => {
-  if (req.auth.userId !== req.params.id) {
+  const paramsId = parseInt(req.params.id);
+  if (req.auth.userId !== paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });
@@ -66,7 +68,7 @@ const deleteUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     if (user) {
@@ -89,10 +91,11 @@ const deleteUser = async (req, res) => {
 
 // get user route
 const getUser = async (req, res) => {
+  const paramsId = parseInt(req.params.id);
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     res.status(200).json({

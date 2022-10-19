@@ -16,6 +16,9 @@ router.get('/:id', userController.getUser);
 // update user route
 router.put('/:id/update', auth, userController.updateUser);
 
+// update user password route
+router.put('/:id/update-password', auth, userController.updateUserPassword);
+
 // delete user route
 router.delete('/:id/delete', auth, userController.deleteUser)
 

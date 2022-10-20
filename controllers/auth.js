@@ -6,6 +6,7 @@ require('dotenv').config();
 // signup route
 const signup = (req, res) => {
   // TODO: validate request
+  console.log("body",  req.body);
   bcrypt.hash(req.body.password, 10, async (err, hash) => {
     if (err) {
       return res.status(500).json({
@@ -41,7 +42,7 @@ const signup = (req, res) => {
         }
       } catch (error) {
         res.status(500).json({
-          status: 'error',
+          status: 'error:' + error,
           message: 'Internal server error'
         });
       }

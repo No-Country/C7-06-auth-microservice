@@ -16,7 +16,8 @@ const auth = (req, res, next) => {
     if (err) {
       return res.status(403).json({ error: 'Token expired or invalid' });
     } else {
-      req.auth = { userId: decoded.userId, role: decoded.role };
+      req.auth = { userId: parseInt(decoded.userId), role: decoded.role };
+      console.log("auth ", req.auth);
       next();
     }
   });

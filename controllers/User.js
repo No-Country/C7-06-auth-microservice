@@ -20,7 +20,7 @@ const getAllUsers = async (req, res) => {
 // update user route
 const updateUser = async (req, res) => {
   const paramsId = parseInt(req.params.id);
-  if (req.auth.userId != paramsId) {
+  if (req.auth.userId !== paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });
@@ -61,7 +61,7 @@ const updateUser = async (req, res) => {
 // delete user route
 const deleteUser = async (req, res) => {
   const paramsId = parseInt(req.params.id);
-  if (req.auth.userId != paramsId) {
+  if (req.auth.userId !== paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });

@@ -23,10 +23,22 @@ const signup = (req, res) => {
           surname: req.body.surname,
           role: 'user'
         });
-        res.status(201).json({
-          message: 'User created',
-          user
+        const newUser = await User.findOne({
+          where: {
+            email: req.body.email
+          }
         });
+        if (newUser) {
+          const token = jwt.sign({ userId: newUser.id, role: newUser.role }, process.env.JWT_KEY, {
+            expiresIn: '24h'
+          });
+          return res.status(200).json({
+            message: 'Auth successful',
+            id: newUser.id,
+            role: newUser.role,
+            token
+          });
+        }
       } catch (error) {
         res.status(500).json({
           status: 'error',
@@ -81,8 +93,54 @@ const login = async (req, res) => {
   }
 };
 
+// login with google route
+const google = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const decode = jwt.decode(token);
+    const user = await User.findOne({
+      where: {
+        email: decode.email
+      }
+    });
+    if (user) {
+      const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_KEY, {
+        expiresIn: '24h'
+      });
+      return res.status(200).json({
+        message: 'Auth successful',
+        id: user.id,
+        role: user.role,
+        token
+      });
+    } else {
+      const newUser = await User.create({
+        email: decode.email,
+        name: decode.given_name,
+        surname: decode.family_name,
+        role: 'user'
+      });
+      const token = jwt.sign({ userId: newUser.id, role: newUser.role }, process.env.JWT_KEY, {
+        expiresIn: '24h'
+      });
+      return res.status(200).json({
+        message: 'Auth successful',
+        id: newUser.id,
+        role: newUser.role,
+        token
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: error //'Internal server error'
+    });
+  }
+};
+
 // export routes
 module.exports = {
   signup,
-  login
+  login,
+  google
 };

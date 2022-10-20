@@ -1,4 +1,5 @@
 const { sequelize, User } = require('../models');
+const bcrypt = require('bcrypt');
 
 // get all users route
 const getAllUsers = async (req, res) => {
@@ -18,7 +19,8 @@ const getAllUsers = async (req, res) => {
 
 // update user route
 const updateUser = async (req, res) => {
-  if (req.auth.userId != req.params.id) {
+  const paramsId = parseInt(req.params.id);
+  if (req.auth.userId != paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });
@@ -27,7 +29,7 @@ const updateUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     if (user) {
@@ -51,14 +53,15 @@ const updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: 'error',
-      message: 'Internal server error'
+      message: error
     });
   }
 };
 
 // delete user route
 const deleteUser = async (req, res) => {
-  if (req.auth.userId != req.params.id) {
+  const paramsId = parseInt(req.params.id);
+  if (req.auth.userId != paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });
@@ -66,7 +69,7 @@ const deleteUser = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     if (user) {
@@ -89,7 +92,8 @@ const deleteUser = async (req, res) => {
 
 // update user password route
 const updateUserPassword = async (req, res) => {
-  if (req.auth.userId != req.params.id) {
+  const paramsId = parseInt(req.params.id);
+  if (req.auth.userId != paramsId) {
     return res.status(401).json({
       message: 'Auth failed.'
     });
@@ -97,7 +101,7 @@ const updateUserPassword = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        id: parseInt(req.params.id)
+        id: paramsId
       }
     });
     if (user) {
@@ -122,7 +126,7 @@ const updateUserPassword = async (req, res) => {
                 });
               } catch (error) {
                 res.status(500).json({
-                  status: 'error',
+                  status: 'error' + error,
                   message: 'Internal server error'
                 });
               }
@@ -137,7 +141,7 @@ const updateUserPassword = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({
-      status: 'error',
+      status: 'error' + error,
       message: 'Internal server error'
     });
   }
@@ -145,10 +149,11 @@ const updateUserPassword = async (req, res) => {
 
 // get user route
 const getUser = async (req, res) => {
+  const paramsId = parseInt(req.params.id);
   try {
     const user = await User.findOne({
       where: {
-        id: req.params.id
+        id: paramsId
       }
     });
     res.status(200).json({
@@ -157,7 +162,7 @@ const getUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
+      status: 'error' + error,
       message: 'Internal server error'
     });
   }
